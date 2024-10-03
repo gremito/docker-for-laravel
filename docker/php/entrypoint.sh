@@ -1,11 +1,4 @@
 #!/bin/bash
-
-if [ ! -f "vendor/autoload.php" ]; then
-    composer install --no-progress --no-interaction
-fi
-
-php artisan migrate
-php artisan optimize
-php artisan view:cache
-
-php-fpm --nodaemonize
+set -e
+composer install --no-progress --no-interaction
+php -d variables_order=EGPCS artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port=80
