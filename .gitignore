@@ -1,3 +1,5 @@
 .env
 docker/mysql
 docker/redis
+docker/schemaspy/schemaspy.properties
+docker/schemaspy/output

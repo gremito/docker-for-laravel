@@ -7,7 +7,7 @@ services:
     volumes:
       - ./web:/var/www/laravel
     depends_on:
-      - db
+      - mysql
       - redis
 
   nginx:
@@ -20,13 +20,13 @@ services:
     depends_on: 
       - app
 
-  db:
+  mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       TZ: 'Asia/Tokyo'
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
@@ -42,3 +42,19 @@ services:
       - ./docker/redis:/data
     ports:
       - '6379:6379'
+
+  schemaspy:
+    build:
+      context: ./docker/schemaspy
+      args:
+        MYSQL_CONNECTOR_VERSION: ${MYSQL_CONNECTOR_VERSION:-8.0.33}
+    container_name: schemaspy
+    environment:
+      - TZ=Asia/Tokyo
+    volumes:
+      - ./docker/schemaspy/output:/output
+      - ./docker/schemaspy/schemaspy.properties:/schemaspy.properties
+    depends_on:
+      - mysql
+    command: >
+      -configFile /schemaspy.properties

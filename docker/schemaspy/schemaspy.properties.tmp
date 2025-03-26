@@ -1,0 +1,27 @@
+# This is template of configuration file for schemaspy
+# Change name to schemaspy.properties and put in your working directory
+
+# type of database. Run with -dbhelp for details
+schemaspy.t=mysql
+
+# optional path to alternative jdbc drivers. 
+schemaspy.dp=./drivers
+
+# database properties: host, port number, name user, password
+schemaspy.host=mysql
+schemaspy.port=3306
+schemaspy.db=laravel
+schemaspy.u=root
+schemaspy.p=root
+
+# output dir to save generated files
+schemaspy.o=./output
+
+# db scheme for which generate diagrams
+schemaspy.s=laravel
+
+# Uncomment to generate diagrams for all schemas in database
+#schemaspy.all
+
+# Uncomment to skip creating diagrams for views
+#schemaspy.noviews
